@@ -11,7 +11,7 @@ async function bootstrap() {
     AppModule,
   );
   const configService = app.get(ConfigService);
-  
+
   const reflector = app.get(Reflector);
   app.useGlobalGuards(new JwtAuthGuard(reflector));
 
@@ -21,7 +21,14 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-
+  //config cors
+  app.enableCors(
+    {
+      "origin": "*",
+      "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+      "preflightContinue": false,
+    }
+  )
   await app.listen(configService.get<string>('PORT'));
 }
 bootstrap();
