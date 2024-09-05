@@ -60,8 +60,8 @@ export class UsersService {
 
   async findAll(currentPage: number, limit: number, qs: string) {
     const { filter, sort, projection, population } = aqp(qs);
-    delete filter.page;
-    delete filter.limit;
+    delete filter.current;
+    delete filter.pageSize;
 
     let offset = (currentPage - 1) * (limit);
     let defaultLimit = limit ? limit : 10;
@@ -134,5 +134,15 @@ export class UsersService {
     return this.userModel.softDelete({
       _id: id,
     })
+  }
+
+  updateUserToken = async(refreshToken: string, _id: string) => {
+    return await this.userModel.updateOne(
+      {_id},
+      {refreshToken}
+    )
+  }
+  findUserByToken = async(refreshToken: string) => {
+    return await this.userModel.findOne({ refreshToken })
   }
 }
