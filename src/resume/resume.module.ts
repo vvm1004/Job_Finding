@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ResumeService } from './resume.service';
 import { ResumeController } from './resume.controller';
-import { Resume, ResumeSchema } from './schemas/resume.schena';
+import { Resume, ResumeSchema } from './schemas/resume.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
@@ -10,4 +10,4 @@ import { MongooseModule } from '@nestjs/mongoose';
   controllers: [ResumeController],
   providers: [ResumeService],
 })
-export class ResumeModule {}
+export class ResumeModule { }

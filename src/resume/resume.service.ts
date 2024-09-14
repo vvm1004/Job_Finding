@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateResumeDto, CreateUserCvDto } from './dto/create-resume.dto';
 import { UpdateResumeDto } from './dto/update-resume.dto';
-import { Resume, ResumeDocument } from './schemas/resume.schena';
+import { Resume, ResumeDocument } from './schemas/resume.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import aqp from 'api-query-params';
@@ -10,11 +10,11 @@ import mongoose from 'mongoose';
 
 @Injectable()
 export class ResumeService {
-  constructor(@InjectModel(Resume.name) private resumeModel: SoftDeleteModel<ResumeDocument>) {}
+  constructor(@InjectModel(Resume.name) private resumeModel: SoftDeleteModel<ResumeDocument>) { }
 
   async create(createUserCvDto: CreateUserCvDto, user: IUser) {
-    const {url, companyId, jobId} = createUserCvDto;
-    let newResume =  await this.resumeModel.create({
+    const { url, companyId, jobId } = createUserCvDto;
+    let newResume = await this.resumeModel.create({
       url, companyId, jobId,
       email: user.email,
       userId: user._id,
@@ -33,9 +33,9 @@ export class ResumeService {
         _id: user._id,
         email: user.email
       }
-     
+
     });
-    return{
+    return {
       _id: newResume?._id,
       createdAt: newResume?.createdAt
     }
@@ -74,22 +74,33 @@ export class ResumeService {
   }
 
   async findOne(id: string) {
-    if(!mongoose.Types.ObjectId.isValid(id))
+    if (!mongoose.Types.ObjectId.isValid(id))
       throw new BadRequestException("Not found resume")
     return this.resumeModel.findById(id)
   }
 
   async findByUsers(user: IUser) {
-    return this.resumeModel.find({userId: user._id})
-  } 
+    return this.resumeModel.find({ userId: user._id })
+      .sort("-createdAt")
+      .populate([
+        {
+          path: "companyId",
+          select: { name: 1 }
+        },
+        {
+          path: "jobId",
+          select: { name: 1 }
+        }
+      ])
 
-  async update( _id: string, status: string, user: IUser) {
-    if(!mongoose.Types.ObjectId.isValid(_id)){
+  }
+
+  async update(_id: string, status: string, user: IUser) {
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
       throw new BadRequestException("Not found resume")
     }
-    console.log(status)
     const updated = await this.resumeModel.updateOne(
-      {_id }, 
+      { _id },
       {
         status,
         updatedBy: {
@@ -114,7 +125,7 @@ export class ResumeService {
 
 
   async remove(id: string, user: IUser) {
-    if(!mongoose.Types.ObjectId.isValid(id)){
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return `Not found resume`
     }
     await this.resumeModel.updateOne(
