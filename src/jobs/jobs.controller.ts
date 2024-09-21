@@ -4,7 +4,9 @@ import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
 import { Public, ResponseMessage, User } from 'src/decorator/customize';
 import { IUser } from 'src/users/users.interface';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('jobs')
 @Controller('jobs')
 export class JobsController {
   constructor(private readonly jobsService: JobsService) { }
@@ -32,13 +34,13 @@ export class JobsController {
   @Public()
   @Get(':id')
   @ResponseMessage("Fetch job by id")
-   findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string) {
     return this.jobsService.findOne(id)
   }
 
   @ResponseMessage("Update a Job")
   @Patch(':id')
-  update(@Param('id') id : string, @Body() updateUserDto: UpdateJobDto, @User() user: IUser) {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateJobDto, @User() user: IUser) {
     return this.jobsService.update(id, updateUserDto, user);
   }
 

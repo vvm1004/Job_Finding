@@ -518,6 +518,65 @@ export const INIT_PERMISSIONS = [
         "createdAt": "2023-06-15T09:13:52.798Z",
         "updatedAt": "2023-06-15T09:13:52.798Z",
         "__v": 0
+    },
+    {
+        "name": "Create a new subcribers",
+        "apiPath": "/api/v1/subscribers",
+        "method": "POST",
+        "module": "SUBSCRIBERS",
+        "createdBy": {
+            "_id": "647b5108a8a243e8191855b5",
+            "email": "vovanminhv23@gmail.com"
+        },
+        "isDeleted": false,
+        "deletedAt": null,
+    },
+    {
+        "name": "Fetch List Subcribers with paginate",
+        "apiPath": "/api/v1/subscribers",
+        "method": "GET",
+        "module": "SUBSCRIBERS",
+        "createdBy": {
+            "_id": "647b5108a8a243e8191855b5",
+            "email": "vovanminhv23@gmail.com"
+        },
+        "isDeleted": false,
+        "deletedAt": null,
+    }, {
+        "name": "Get a subcribers by id",
+        "apiPath": "/api/v1/subscribers/:id",
+        "method": "GET",
+        "module": "SUBSCRIBERS",
+        "createdBy": {
+            "_id": "647b5108a8a243e8191855b5",
+            "email": "vovanminhv23@gmail.com"
+        },
+        "isDeleted": false,
+        "deletedAt": null,
+    },
+    {
+        "name": "Update a subscribers",
+        "apiPath": "/api/v1/subscribers",
+        "method": "PATCH",
+        "module": "SUBSCRIBERS",
+        "createdBy": {
+            "_id": "647b5108a8a243e8191855b5",
+            "email": "vovanminhv23@gmail.com"
+        },
+        "isDeleted": false,
+        "deletedAt": null,
+    },
+    {
+        "name": "Delete a subscribers",
+        "apiPath": "/api/v1/subscribers/:id",
+        "method": "DELETE",
+        "module": "SUBSCRIBERS",
+        "createdBy": {
+            "_id": "647b5108a8a243e8191855b5",
+            "email": "vovanminhv23@gmail.com"
+        },
+        "isDeleted": false,
+        "deletedAt": null,
     }
 ]
 

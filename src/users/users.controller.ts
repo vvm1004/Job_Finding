@@ -4,8 +4,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public, ResponseMessage, User } from 'src/decorator/customize';
 import { IUser } from './users.interface';
+import { ApiTags } from '@nestjs/swagger';
 
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
@@ -13,11 +15,11 @@ export class UsersController {
   @ResponseMessage("Create a new user")
   @Post()
   async create(
-    @Body() createUserDto: CreateUserDto,  @User() user: IUser
+    @Body() createUserDto: CreateUserDto, @User() user: IUser
   ) {
-    
+
     let newUser = await this.usersService.create(createUserDto, user);
-    return{
+    return {
       _id: newUser?._id,
       createdAt: newUser?.createdAt
     }
@@ -30,7 +32,7 @@ export class UsersController {
     @Query("pageSize") limit: string,
     @Query() qs: string
   ) {
-     return this.usersService.findAll(+currentPage, +limit, qs);
+    return this.usersService.findAll(+currentPage, +limit, qs);
   }
 
 
@@ -44,8 +46,8 @@ export class UsersController {
 
   @ResponseMessage("Update a User")
   @Patch()
-  update( @Body() updateUserDto: UpdateUserDto, @User() user: IUser) {
-    return this.usersService.update( updateUserDto, user);
+  update(@Body() updateUserDto: UpdateUserDto, @User() user: IUser) {
+    return this.usersService.update(updateUserDto, user);
   }
 
   @ResponseMessage("Delete a User")
